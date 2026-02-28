@@ -1,5 +1,13 @@
 import arcade
 import game_view
+import sys
+import os
+
+def resource_path(relative_path):
+    """Get absolute path to resource, works for dev and PyInstaller"""
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return relative_path
 
 
 class InstructionView(arcade.View):
@@ -9,7 +17,7 @@ class InstructionView(arcade.View):
 
         self.controls_list = arcade.SpriteList()
 
-        self.controls_sprite = arcade.Sprite("images/controls.png")
+        self.controls_sprite = arcade.Sprite(resource_path("images/controls.png"))
         self.controls_sprite.center_x = 600
         self.controls_sprite.center_y = 360
 

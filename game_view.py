@@ -6,6 +6,14 @@ from enemy_bullet import EnemyBullet
 from constants import *
 from enemy_invader import EnemyInvader
 import instruction_view
+import sys
+import os
+
+def resource_path(relative_path):
+    """Get absolute path to resource, works for dev and PyInstaller"""
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return relative_path
 
 
 class GameView(arcade.View):
@@ -34,10 +42,10 @@ class GameView(arcade.View):
 
         self.enemy_change_x = -ENEMY_SPEED
 
-        self.gun_sound = arcade.load_sound("sound/shoot.wav")
-        self.hit_sound = arcade.load_sound("sound/invaderkilled.wav")
-        self.player_explosion = arcade.load_sound("sound/invaderkilled.wav")
-        self.game_over_sound = arcade.load_sound("sound/explosion.wav")
+        self.gun_sound = arcade.load_sound(resource_path("sound/shoot.wav"))
+        self.hit_sound = arcade.load_sound(resource_path("sound/invaderkilled.wav"))
+        self.player_explosion = arcade.load_sound(resource_path("sound/invaderkilled.wav"))
+        self.game_over_sound = arcade.load_sound(resource_path("sound/explosion.wav"))
 
         arcade.set_background_color(arcade.color.BLACK)
 
@@ -56,7 +64,7 @@ class GameView(arcade.View):
                 y = y_start + y_spacing * row
                 score = 0
 
-                enemy_texture = arcade.load_texture("images/enemy.png")
+                enemy_texture = arcade.load_texture(resource_path("images/enemy.png"))
 
                 row_scores = {0: 10, 1: 10, 2: 20, 3: 20, 4: 30}
 
@@ -102,8 +110,7 @@ class GameView(arcade.View):
 
         self.score = 0
 
-        self.player_sprite = arcade.Sprite("images/player.png",
-                                           SPRITE_SCALING_PLAYER)
+        self.player_sprite = arcade.Sprite(resource_path("images/player.png"), SPRITE_SCALING_PLAYER)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 60
         self.player_sprite.color = PLAYER_COLOR
@@ -209,7 +216,7 @@ class GameView(arcade.View):
 
         if len(self.player_bullet_list) < MAX_PLAYER_BULLETS:
             arcade.play_sound(self.gun_sound)
-            bullet = arcade.Sprite("images/player_bullet.png", SPRITE_SCALING_LASER)
+            bullet = arcade.Sprite(resource_path("images/player_bullet.png"), SPRITE_SCALING_LASER)
             bullet.color = PLAYER_COLOR
             bullet.change_y = PLAYER_BULLET_SPEED
             bullet.center_x = self.player_sprite.center_x

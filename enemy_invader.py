@@ -1,6 +1,14 @@
 import arcade
 
 from constants import *
+import sys
+import os
+
+def resource_path(relative_path):
+    """Get absolute path to resource, works for dev and PyInstaller"""
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return relative_path
 
 
 class EnemyInvader(arcade.Sprite):
@@ -14,7 +22,7 @@ class EnemyInvader(arcade.Sprite):
         self.trigger_game_over = False
 
         self.texture = self.texture_1
-        self.empty_texture = arcade.load_texture("images/empty.png")
+        self.empty_texture = arcade.load_texture(resource_path("images/empty.png"))
 
     def on_update(self, dt):
         self.time += dt
@@ -36,7 +44,7 @@ class EnemyInvader(arcade.Sprite):
             self.texture = self.texture_2
 
     def explode(self):
-        self.texture = arcade.load_texture("images/enemy_explosion.png")
+        self.explode_texture = arcade.load_texture(resource_path("images/enemy_explosion.png"))
         self.dead = True
         self.time = 0
         self.color = ENEMY_EXPLOSION_COLOR
